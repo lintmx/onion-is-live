@@ -3,7 +3,7 @@ import { reactive, computed, onMounted } from "vue";
 import type { CountdownData } from "@/types/types";
 
 const data: CountdownData = {
-  time: new Date("2022-03-21T13:00:58+00:00"),
+  time: new Date("2022-03-27T15:24:09+00:00"),
   now: new Date(),
 };
 const state = reactive(data);
