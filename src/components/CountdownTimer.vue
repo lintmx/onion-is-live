@@ -1,35 +1,32 @@
 <script setup lang="ts">
-import { reactive, computed, onMounted } from "vue";
-import type { CountdownData } from "@/types/types";
+import { computed } from "vue";
+import { useTimeStore } from "@/store/time";
 
-const data: CountdownData = {
-  time: new Date("2022-04-17T13:07:25+00:00"),
-  now: new Date(),
-};
-const state = reactive(data);
+const timeStore = useTimeStore();
 
 const days = computed(() => {
-  const diff = Math.floor((state.now.getTime() - state.time.getTime()) / 1000);
+  const diff = Math.floor(
+    (timeStore.now.getTime() - timeStore.time.getTime()) / 1000
+  );
   return `${Math.floor(diff / 86400)}`.padStart(2, "0");
 });
 const hours = computed(() => {
-  const diff = Math.floor((state.now.getTime() - state.time.getTime()) / 1000);
+  const diff = Math.floor(
+    (timeStore.now.getTime() - timeStore.time.getTime()) / 1000
+  );
   return `${Math.floor((diff % 86400) / (60 * 60))}`.padStart(2, "0");
 });
 const minutes = computed(() => {
-  const diff = Math.floor((state.now.getTime() - state.time.getTime()) / 1000);
+  const diff = Math.floor(
+    (timeStore.now.getTime() - timeStore.time.getTime()) / 1000
+  );
   return `${Math.floor(((diff % 86400) % (60 * 60)) / 60)}`.padStart(2, "0");
 });
 const seconds = computed(() => {
-  const diff = Math.floor((state.now.getTime() - state.time.getTime()) / 1000);
+  const diff = Math.floor(
+    (timeStore.now.getTime() - timeStore.time.getTime()) / 1000
+  );
   return `${Math.floor((diff % 86400) % 60)}`.padStart(2, "0");
-});
-
-onMounted(() => {
-  clearInterval(state.timer);
-  state.timer = setInterval(() => {
-    state.now = new Date();
-  }, 500);
 });
 </script>
 

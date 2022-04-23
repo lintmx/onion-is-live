@@ -1,5 +1,27 @@
 <script setup lang="ts">
 import CountdownTimer from "./components/CountdownTimer.vue";
+import { computed, onMounted } from "vue";
+import { useTimeStore } from "@/store/time";
+
+const timeStore = useTimeStore();
+
+timeStore.$onAction(({ name, store, after }) => {
+  if (name === "update") {
+    after(() => {
+      setInterval(() => {
+        store.refresh();
+      }, 500);
+    });
+  }
+}, true);
+
+const liveStatus = computed(() => {
+  return timeStore.live;
+});
+
+onMounted(() => {
+  timeStore.update();
+});
 </script>
 
 <template>
@@ -7,7 +29,12 @@ import CountdownTimer from "./components/CountdownTimer.vue";
     <img src="@/assets/logo.svg" />
     <h1>今天洋葱直播了吗</h1>
     <h3>距离洋葱上次直播竟然已经过去</h3>
-    <CountdownTimer />
+    <h1 v-if="liveStatus">
+      <a href="https://www.youtube.com/channel/UC1opHUrw8rvnsadT-iGp7Cg/live"
+        >播了，还不快去看！</a
+      >
+    </h1>
+    <CountdownTimer v-else />
   </div>
 </template>
 
@@ -31,6 +58,17 @@ import CountdownTimer from "./components/CountdownTimer.vue";
   animation: transform 4.45s linear 0s infinite forwards;
   stroke: white;
   width: 22.25vh;
+}
+
+h1 > a {
+  text-decoration: none;
+}
+
+h1 > a:visited,
+a:link,
+a:hover,
+a:active {
+  color: black;
 }
 
 @media screen and (max-width: 640px) {
