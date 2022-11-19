@@ -23,12 +23,14 @@ export const useTimeStore = defineStore("timerStore", {
       }
 
       // 无缓存或缓存过期进行接口请求
-      const response = await ky.get("https://api-live.minatoaqua.fans/status");
+      const response = await ky.get(
+        "https://live-status.minatoaqua.fans/status"
+      );
       // const response = await ky.get("/api/status");
       if (response.status === 200) {
         const result = await response.json();
-        this.live = result.time === "0";
-        this.time = new Date(this.live ? null : result.time);
+        this.live = result.status === "OK";
+        this.time = new Date(this.live ? null : result.time * 1000);
         // 存储缓存
         localStorage.setItem(
           CacheKey,
