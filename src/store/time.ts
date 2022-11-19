@@ -30,14 +30,14 @@ export const useTimeStore = defineStore("timerStore", {
       if (response.status === 200) {
         const result = await response.json();
         this.live = result.status === "OK";
-        this.time = new Date(this.live ? null : result.time * 1000);
+        this.time = new Date(this.live ? 0 : result.time * 1000);
         // 存储缓存
         localStorage.setItem(
           CacheKey,
           JSON.stringify({
             timestamp: Date.now() + 60000, // 缓存 60 秒
-            time: result.time,
-            live: result.live,
+            time: result.time * 1000,
+            live: this.live,
           })
         );
       }
