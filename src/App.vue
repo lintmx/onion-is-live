@@ -26,7 +26,7 @@ onMounted(() => {
 
 <template>
   <div class="container">
-    <img src="@/assets/logo.svg" />
+    <img src="@/assets/logo.svg" alt="logo" />
     <h1>今天洋葱直播了吗</h1>
     <h3>距离洋葱上次直播竟然才过去</h3>
     <h1 v-if="liveStatus">
